@@ -1,0 +1,42 @@
+<html>
+<head>
+	<title>Pokemon Emerald</title>
+	<link rel="stylesheet" type="text/css" href="site/css.css" />
+</head>
+<body>
+	<style type="text/css">
+	</style>
+	<img id="deadmaul_image" src="image/deadmaul.png" />
+	<div id="login">
+		<input id="iLogin" type="text">
+		<button id="bLogin">login</button>
+	</div>
+	<div id="servers">
+		<table id="serverList">
+			<tr>
+				<td>name</td>
+				<td>host</td>
+				<td>map</td>
+				<td>slot</td>
+				<td></td>
+			</tr>
+		</table>
+		<input id="sName" type="text"><button id="sCreate">createLobby</button>
+	</div>
+	<div id="GameMenu">
+		<table id="GameMenuList">
+			
+		</table>
+		<canvas id="gameMenuMap" width="192" height="192"></canvas>
+	</div>
+	<canvas id="game" width="700" height="500"></canvas>
+	<!-- the socket -->
+	<script src="/socket.io/socket.io.js"></script>
+	
+	<script src="site/jquery-2.1.4.min.js"></script>
+	<!-- the game engien -->
+	<script src="site/Control/game.js"></script>
+	<script src="site/Control/socket.js"></script>
+
+</body>
+</html>

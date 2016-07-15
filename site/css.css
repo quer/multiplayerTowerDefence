@@ -1,0 +1,22 @@
+body{
+	background-color: black;
+	color: white;
+}
+img{
+  display: none;
+}
+canvas{
+	border: 1px solid white;
+}
+#game, #gameMenu{
+	display: none;
+}
+#servers{
+	display: none;
+}
+#servers table{
+	background-color: green;
+}
+#servers table tr td{
+	border:1px solid white;
+}
