@@ -35,4 +35,7 @@ module.exports = new function () {
 		};
 		return endData;
 	}
+	this.startSession = function(id) {
+		// body...
+	}
 }

@@ -36,6 +36,7 @@ $("#servers").on("click", "#serverList button", function () {
     if (data.status != false) {
       $( "#servers" ).hide();
       $( "#GameMenu" ).show();
+      $( "#chat" ).show();
       
       console.log(data);
       updateGameMenu(data.gameMenu.lobby);
@@ -48,7 +49,7 @@ $("#servers").on("click", "#sCreate", function () {
     if (data.status) {
       $( "#servers" ).hide();
       $( "#GameMenu" ).show();
-      
+      $( "#chat" ).show();
       console.log(data);
       updateGameMenu(data.gameMenu.lobby);
       buildMineMenuMap(data.gameMenu.map);
@@ -56,6 +57,14 @@ $("#servers").on("click", "#sCreate", function () {
       console.log(data.text);
     }
   });
+});
+/**
+ * chat
+ */
+ $('form').submit(function(){
+  socket.emit('chat', $('#m').val());
+  $('#m').val('');
+  return false;
 });
 /**
  * Game menu page
@@ -77,6 +86,10 @@ socket.on('GameMenuUpdate', function(data) {
   console.log("updateGameMenu");
 });
 
+socket.on('chat', function(data) {
+  $('#messages').append($('<li>').text(data.from+": "+data.text));
+  console.log(data);
+});
 /**
 * Ping test 
 */

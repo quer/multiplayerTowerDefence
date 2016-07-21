@@ -48,6 +48,14 @@ io.sockets.on('connection', function (socket) {
 		socket.session.emitGameMenuToAll();
 	  	console.log("menu updateGameMenu");
 	});
+	socket.on('chat', function(text) {
+		if (('session' in socket)) {
+			socket.session.chat(text, socket.name);
+		}else{
+			console.log("user not in session: "+ socket.name);
+		}
+		
+	});
 	socket.on('ping', function() {
 	    socket.emit('pong');
 	});

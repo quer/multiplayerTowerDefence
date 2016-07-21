@@ -8,7 +8,7 @@ img{
 canvas{
 	border: 1px solid white;
 }
-#game, #gameMenu{
+#game, #gameMenu, #chat{
 	display: none;
 }
 #servers{
@@ -20,3 +20,13 @@ canvas{
 #servers table tr td{
 	border:1px solid white;
 }
+#chat {
+	height: 100px;
+	width: 300px;
+}
+#chat form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+#chat form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+#chat form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+#chat #messages { list-style-type: none; margin: 0; padding: 0; }
+#chat #messages li { padding: 5px 10px; }
+#chat #messages li:nth-child(odd) { background: #eee; }

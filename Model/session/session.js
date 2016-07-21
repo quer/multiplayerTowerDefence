@@ -70,11 +70,11 @@ module.exports = function (map, user, name, id) {
 		};
 		
 		var gameMenu = this.buildLobbyToUser();
-		for (var i = 0; i < this.lobby.length; i++) {
-			if(this.lobby[i].user != null && (blacklistUser == null || this.lobby[i].user.name != blacklistUser.name)){
-				this.lobby[i].user.emit("GameMenuUpdate", gameMenu);
-			}
-		};
+		
+		this.emitSession("GameMenuUpdate", gameMenu, blacklistUser)
+	}
+	this.chat = function (text, name) {
+		this.emitSession("chat", {"from": name, "text": text}, null);
 	}
 
 	/* only used local fun */
@@ -98,5 +98,15 @@ module.exports = function (map, user, name, id) {
 			});
 		};
 		return newLobby;
+	}
+	this.emitSession = function (name, data, blacklistUser) {
+		if (typeof blacklistUser === 'undefined') {
+			blacklistUser = null;
+		};
+		for (var i = 0; i < this.lobby.length; i++) {
+			if(this.lobby[i].user != null && (blacklistUser == null || this.lobby[i].user.name != blacklistUser.name)){
+				this.lobby[i].user.emit(name, data);
+			}
+		};
 	}
 }
