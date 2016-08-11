@@ -1,5 +1,6 @@
 var socket = io.connect();
-
+var game = null;
+var gameLoopObj = null;
 /**
 * Login page
 */
@@ -17,7 +18,7 @@ $("#bLogin").click(function() {
             +"<td>"+data.sessionList[i].name+"</td>"
             +"<td>"+data.sessionList[i].host+"</td>"
             +"<td>"+data.sessionList[i].map+"</td>"
-            +"<td>"+data.sessionList[i].freeSlots+" / "+data.sessionList[i].slot+"</td>"
+            +"<td>"+data.sessionList[i].usedSlots+" / "+data.sessionList[i].slot+"</td>"
             +"<td><button serverId=\""+data.sessionList[i].id+"\">Join</button></td>"
             +"</tr>"); 
         };
@@ -37,10 +38,9 @@ $("#servers").on("click", "#serverList button", function () {
       $( "#servers" ).hide();
       $( "#GameMenu" ).show();
       $( "#chat" ).show();
-      
-      console.log(data);
+      //console.log(data);
       updateGameMenu(data.gameMenu.lobby);
-      buildMineMenuMap(data.gameMenu.map);
+      buildMineMenuMap(data.gameMenu);
     };
   });
 });
@@ -50,14 +50,17 @@ $("#servers").on("click", "#sCreate", function () {
       $( "#servers" ).hide();
       $( "#GameMenu" ).show();
       $( "#chat" ).show();
-      console.log(data);
+      $( "#GMStart" ).show();
+      //console.log(data);
       updateGameMenu(data.gameMenu.lobby);
-      buildMineMenuMap(data.gameMenu.map);
+      buildMineMenuMap(data.gameMenu);
     }else{
       console.log(data.text);
     }
   });
 });
+  
+
 /**
  * chat
  */
@@ -78,6 +81,9 @@ $("#GameMenu").on("click", "#GameMenuList button", function () {
     };
   });
 });
+$("#GameMenu").on("click", "#GMStart", function () {
+  socket.emit('startSession');
+});
 /**
  * fra server
  */
@@ -89,6 +95,26 @@ socket.on('GameMenuUpdate', function(data) {
 socket.on('chat', function(data) {
   $('#messages').append($('<li>').text(data.from+": "+data.text));
   console.log(data);
+});
+socket.on('chat', function(data) {
+  $('#messages').append($('<li>').text(data.from+": "+data.text));
+  console.log(data);
+});
+socket.on('startGameData', function(data) {
+  $( "#servers" ).hide();
+  $( "#GameMenu" ).hide();
+  $( "#GMStart" ).hide();
+  $("#game").show();
+  console.info("startGameData");
+  console.log(data);
+  game = new Game(data.map, data.start);
+  console.info("game");
+  console.log(game);
+  gameLoopObj = new GameLoopClass(game);
+  console.info("gameLoopObj");
+  console.log(gameLoopObj);
+  gameLoopObj.startGame();
+  socket.emit('addAktivePlayer');
 });
 /**
 * Ping test 
@@ -113,7 +139,8 @@ function updateGameMenu (lobbyData) {
       +"</tr>"); 
   };
 }
-function buildMineMenuMap (mapData) {
+function buildMineMenuMap (data) {
+  mapData = data.map;
   var can = document.getElementById('gameMenuMap');
   can.width = "384";
   can.height = "384";
@@ -131,6 +158,19 @@ function buildMineMenuMap (mapData) {
       ctx.drawImage(image, tileSheetPoss.x * mapData.tilesets.tilewidth, tileSheetPoss.y * mapData.tilesets.tileheight, mapData.tilesets.tilewidth, mapData.tilesets.tileheight, Math.abs(ii*4), Math.abs(i*4), 4, 4);
     };
   };
+  for (var i = data.lobby.length - 1; i >= 0; i--) {
+    var x = data.lobby[i].x * 4;
+    var y = data.lobby[i].y * 4;
+
+    ctx.beginPath();
+    ctx.moveTo(x - 10, y + 10);
+    ctx.lineTo(x + 10, y - 10);
+    ctx.moveTo(x + 10, y + 10);
+    ctx.lineTo(x - 10, y - 10);
+    ctx.strokeStyle = data.lobby[i].color;
+    ctx.stroke();
+    
+  }
   // clear the viewport
   /*ctx.clearRect(0,0, 384, 384);
   ctx.restore();*/

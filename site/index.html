@@ -28,6 +28,7 @@
 			
 		</table>
 		<canvas id="gameMenuMap" width="192" height="192"></canvas>
+		<button id="GMStart">Start game</button>
 	</div>
 	<div id="chat">
 		<ul id="messages"></ul>
@@ -35,12 +36,15 @@
          	<input id="m" autocomplete="off" /><button>Send</button>
       	</form>
 	</div>
-	<canvas id="game" width="700" height="500"></canvas>
+	<canvas id="game" width="1400" height="900"></canvas>
 	<!-- the socket -->
 	<script src="/socket.io/socket.io.js"></script>
 	
 	<script src="site/jquery-2.1.4.min.js"></script>
 	<!-- the game engien -->
+	<script src="site/Model/Tile.js"></script>
+	<script src="site/Model/Window.js"></script>
+	<script src="site/Model/World.js"></script>
 	<script src="site/Control/game.js"></script>
 	<script src="site/Control/socket.js"></script>
 

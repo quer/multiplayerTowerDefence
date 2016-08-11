@@ -21,6 +21,8 @@ module.exports = function (map, user, name, id) {
 	this.buildMap = function () {
 		this.map = new mapObj(this.mapInfo);
 	}
+	this.igang = false;
+	this.Ready = [];
 	this.buildOverview = function () {
 		return {
 			"id":this.id,
@@ -28,7 +30,7 @@ module.exports = function (map, user, name, id) {
 			"host": this.host.name, 
 			"map": this.mapName, 
 			"slot": this.lobby.length, 
-			"freeSlots": this.freeSlots()
+			"usedSlots": this.usedSlots()
 		};
 	}
 	this.buildGameMenu = function () {
@@ -78,14 +80,14 @@ module.exports = function (map, user, name, id) {
 	}
 
 	/* only used local fun */
-	this.freeSlots = function () {
-		var free = 0;
+	this.usedSlots = function () {
+		var used = 0;
 		for (var i = 0; i < this.lobby.length; i++) {
 			if(this.lobby[i].user != null){
-				free++;
+				used++;
 			}
 		};
-		return free;
+		return used;
 	}
 	this.buildLobbyToUser = function () {
 		var newLobby = [];
@@ -105,8 +107,69 @@ module.exports = function (map, user, name, id) {
 		};
 		for (var i = 0; i < this.lobby.length; i++) {
 			if(this.lobby[i].user != null && (blacklistUser == null || this.lobby[i].user.name != blacklistUser.name)){
-				this.lobby[i].user.emit(name, data);
+				//this.lobby[i].user.emit(name, data);
+				this.emitSessionSinkel(this.lobby[i].user, name, data);
 			}
 		};
+	}
+	this.emitSessionSinkel = function (user, name, data) {
+		user.emit(name, data);	
+	}
+	this.startCountdown = function() {
+		console.log("game will Start");
+		this.chat("Game will start", "Server");
+		this.start();
+		/* for count down */
+		/*var i = 10;
+		var that = this;
+		var interval = setInterval(function(){
+			that.chat("Game will start in "+ i +" sec", "Server");
+			--i;
+			if(i <= 0){
+      			clearInterval(interval);
+      			console.log("game Start");
+      			that.start();
+    		}
+  		},1000);*/
+	}
+	this.start = function() {
+		this.buildMap();
+		//this.emitSession('startGame', {"start":true});
+		for (var i = 0; i < this.lobby.length; i++) {
+			if (this.lobby[i].user != null) {
+				this.emitSessionSinkel(this.lobby[i].user,'startGameData', {"map": this.map.buildStartData(), "start" : {"x": this.lobby[i].x, "y": this.lobby[i].y, "color": this.lobby[i].color} });
+			}
+		}
+		//this.emitSession('startGameData', {"map": this.map.buildStartData(), "start" });
+	}
+	this.checkReady = function () {
+		if (this.usedSlots() == this.Ready.length) {
+			this.igang = true;
+			this.emitSession('startGameAllready', {"start":true});
+		}
+	}
+	/* akriv game */
+	this.update = function(delta) {
+		if (this.map != null) {
+			if (this.igang) {
+				console.log("update akriv game");
+				this.map.update(delta);
+			}else{
+				console.log("update. checker game");
+				this.checkReady();
+			}
+		}
+	}
+	this.addAktivePlayer = function(user) {
+		var allreadyAktive = false;
+		for (var i = this.Ready - 1; i >= 0; i--) {
+			if(this.Ready[i] = user){
+				allreadyAktive = true;
+				break;
+			}
+		}
+		if (!allreadyAktive) {
+			this.Ready.push(user);
+		}
 	}
 }

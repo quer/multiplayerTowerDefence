@@ -35,7 +35,9 @@ module.exports = new function () {
 		};
 		return endData;
 	}
-	this.startSession = function(id) {
-		// body...
+	this.update = function(delta) {
+		for (var i = 0; i < this.session.length; i++) {
+			this.session[i].update(delta);
+		}
 	}
 }

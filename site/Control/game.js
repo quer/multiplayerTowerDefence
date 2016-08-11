@@ -1,55 +1,116 @@
 var can = document.getElementById('game');
 var	ctx = can.getContext('2d');
-
-var game = {
-    playerData: {},
-    world: "",
-    started: false,
-    text: null,
-	load: function (can, ctx) {
-        ctx.mozImageSmoothingEnabled = false;
-		ctx.webkitImageSmoothingEnabled = false;
-		ctx.msImageSmoothingEnabled = false;
-		ctx.imageSmoothingEnabled = false;
-	},
-    update: function () {
-    },
-    render: function (ctx) {
+var key = {
+  "left": false,
+  "right": false,
+  "up": false,
+  "down": false,
+  "z": false,
+  "x": false
+}
+var Game = function (NewGameData, start) {
+    this.gameData = NewGameData
+    this.map = NewGameData.map;
+    this.level = NewGameData.level;
+    this.buildings = NewGameData.buildings;
+    this.ctx = ctx;
+    this.world = new World(this.map, this.ctx, start);
+    this.delta = 0;
+    
+    this.load = function () {
+        this.ctx.mozImageSmoothingEnabled = false;
+        this.ctx.webkitImageSmoothingEnabled = false;
+        this.ctx.msImageSmoothingEnabled = false;
+        this.ctx.imageSmoothingEnabled = false;
+        this.ctx.width = Window.x;
+        this.ctx.height = Window.y;
+    }
+    this.update = function() {
+        var movePixel = 20;
+        if (key.left) {
+            this.world.offset.x -= movePixel;
+        }else if (key.right){
+            this.world.offset.x += movePixel;
+        }
+        if (key.up) {
+            this.world.offset.y -= movePixel;
+        }else if (key.down){
+            this.world.offset.y += movePixel;
+        }
+    }
+    this.render = function() {
         var start = Date.now();
-        ctx.fillStyle="black";
-		ctx.save();
-        ctx.translate(-0 + -(Camera.worldXOffset * (Tile.REAL_SIZE())), -0 + -(Camera.worldYOffset * (Tile.REAL_SIZE())));
+        this.ctx.fillStyle="black";
+        this.ctx.save();
+        //this.ctx.translate(this.world.offset.x, this.world.offset.y);
         // clear the viewport
-        ctx.clearRect(-0 + -(Camera.worldXOffset * (Tile.REAL_SIZE())), -0 + -(Camera.worldYOffset * (Tile.REAL_SIZE())), Window.SCALE_WIDTH(), Window.SCALE_HEIGHT());
-		
+        //this.ctx.clearRect(this.world.offset.x,this.world.offset.y, Window.x, Window.y);
+        this.ctx.translate(0, 0);
+        // clear the viewport
+        this.ctx.clearRect(0, 0, Window.x, Window.y);
 
-			World.render(ctx, 0 + Camera.worldXOffset, 0 + Camera.worldYOffset , 0);
-            World.render(ctx, 0 + Camera.worldXOffset, 0 + Camera.worldYOffset , 1);
-		ctx.restore();
+            this.world.render();
+        this.ctx.restore();
 
         var end = Date.now();
-        ctx.font = '16px sans-serif'
-        ctx.textAlign = 'center';
-        ctx.fillText('Rendered in ' + (end - start) + ' ms', can.width / 2, can.height - 20);
-	}
+        this.ctx.font = '16px sans-serif'
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText('Rendered in ' + (end - start) + ' ms', can.width / 2, can.height - 20);
+    }
 }
-//game.load(can, ctx);
-
-var fps = 1000 / 30 ;
-var delta = 0;
-var mainloop = function() {
-	delta++;
-	game.render();
-};
-var gameLoop = null;
-function startGame () {
-    if (gameLoop == null) {
-        gameLoop = setInterval(mainloop, fps);
-        console.log("game start");
-    };
+var GameLoopClass = function(game) {
+    this.game = game;
+    this.gameLoop = null;
+    this.fps = 1000 / 10;
+    this.startGame = function () {
+        this.game.load();
+        if (this.gameLoop == null) {
+            this.gameLoop = setInterval(this.mainloop, this.fps);
+            console.log("game start");
+        }
+    }
+    this.stopGame =  function () {
+        console.log("stopGame");
+        clearInterval(this.gameLoop);
+        this.gameLoop = null;
+    }
+    var that = this;
+    this.mainloop = function() {
+        that.game.delta++;
+        that.game.update();
+        that.game.render();
+    }
 }
-function stopGame () {
-    console.log("stopGame");
-	clearInterval(gameLoop);
-    gameLoop = null;
-}
+window.addEventListener('keydown', function(e) {
+    
+    switch (e.keyCode) {
+        case 37:
+            key.left = true;
+            break;
+        case 39:
+            key.right = true;
+            break;
+        case 38:  
+            key.up = true;
+            break;
+        case 40:
+            key.down = true;
+            break;
+    }
+}, false);
+window.addEventListener('keyup', function(e) {
+    switch (e.keyCode) {
+        case 37:
+          key.left = false;
+          break;
+        case 39:
+          key.right = false;
+          break;
+        case 38:
+          key.up = false;
+          break;
+        case 40:
+          key.down = false;
+          break;
+    }
+}, false);

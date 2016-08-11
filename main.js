@@ -24,6 +24,16 @@ console.log("starter server on port "+port);
 server.listen(port);
 io.sockets.on('connection', function (socket) {
 	console.log("New connection");
+	/* from active game*/
+
+	/* Game menu */
+	socket.on('startSession', function() {
+		console.log("start session");
+		if (socket.session != null && socket.session.host == socket) {
+			console.log("start session");
+			socket.session.startCountdown();
+		}
+	});
 	socket.on('joinSession', function(sessionId, callback) {
 	    var session = SessionController.findSession(sessionId);
 	    if (session != null) {
@@ -39,7 +49,7 @@ io.sockets.on('connection', function (socket) {
 	socket.on('creatSession', function(name, callback) {
 		var session = SessionController.newSession(TileMaps.deadmaul,socket, name);
    		socket.session = session;
-   		callback({"gameMenu": session.buildGameMenu(), "status":true});
+   		callback({"gameMenu": session.buildGameMenu(), "status" : true});
 	});
 	socket.on('MenuLobbyChance', function(color) {
 		console.log(socket.session.lobby);
@@ -48,6 +58,7 @@ io.sockets.on('connection', function (socket) {
 		socket.session.emitGameMenuToAll();
 	  	console.log("menu updateGameMenu");
 	});
+	/* menu and ingame */
 	socket.on('chat', function(text) {
 		if (('session' in socket)) {
 			socket.session.chat(text, socket.name);
@@ -59,6 +70,13 @@ io.sockets.on('connection', function (socket) {
 	socket.on('ping', function() {
 	    socket.emit('pong');
 	});
+
+	socket.on('addAktivePlayer', function() {
+	    if(socket.session != null){
+	    	socket.session.addAktivePlayer(socket);
+	    }
+	});
+	/* before game menu */
 	socket.on('login', function(name, callback) {
 		if (!('name' in socket)) {
 			if (players[name] == undefined) {
@@ -82,3 +100,10 @@ io.sockets.on('connection', function (socket) {
 		console.log("player dc");
 	});
 });
+/* server loop */
+var delta = 0;
+var fps = 1000 / 1 ;
+setInterval(function() {
+  SessionController.update(delta);
+  ++delta;
+}, fps);

@@ -6,6 +6,7 @@ var building = require("./building");
 module.exports = function (map) {
 	this.collission = map.collission;
 	this.map = map.map;
+	this.mapData = map;
 	this.waves = [];
 	this.igangWave = null;
 	for (var i = 0; i < map.wave.length; i++) {
@@ -17,7 +18,9 @@ module.exports = function (map) {
 	};
 	this.level = map.level;
 	this.valgtLevel = null;
-	
+	this.buildStartData = function () {
+		return {"map": this.mapData };
+	}
 	this.update = function (delta) {
 		// body...
 	}
