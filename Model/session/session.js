@@ -18,8 +18,8 @@ module.exports = function (map, user, name, id) {
 		});
 	};
 	this.map = null;
-	this.buildMap = function () {
-		this.map = new mapObj(this.mapInfo);
+	this.buildMap = function (level) {
+		this.map = new mapObj(this.mapInfo, this.lobby, level);
 	}
 	this.igang = false;
 	this.Ready = [];
@@ -115,10 +115,10 @@ module.exports = function (map, user, name, id) {
 	this.emitSessionSinkel = function (user, name, data) {
 		user.emit(name, data);	
 	}
-	this.startCountdown = function() {
+	this.startCountdown = function(level) {
 		console.log("game will Start");
 		this.chat("Game will start", "Server");
-		this.start();
+		this.start(level);
 		/* for count down */
 		/*var i = 10;
 		var that = this;
@@ -132,8 +132,8 @@ module.exports = function (map, user, name, id) {
     		}
   		},1000);*/
 	}
-	this.start = function() {
-		this.buildMap();
+	this.start = function(level) {
+		this.buildMap(level);
 		//this.emitSession('startGame', {"start":true});
 		for (var i = 0; i < this.lobby.length; i++) {
 			if (this.lobby[i].user != null) {

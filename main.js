@@ -27,11 +27,11 @@ io.sockets.on('connection', function (socket) {
 	/* from active game*/
 
 	/* Game menu */
-	socket.on('startSession', function() {
+	socket.on('startSession', function(level) {
 		console.log("start session");
 		if (socket.session != null && socket.session.host == socket) {
 			console.log("start session");
-			socket.session.startCountdown();
+			socket.session.startCountdown(level);
 		}
 	});
 	socket.on('joinSession', function(sessionId, callback) {
@@ -49,7 +49,7 @@ io.sockets.on('connection', function (socket) {
 	socket.on('creatSession', function(name, callback) {
 		var session = SessionController.newSession(TileMaps.deadmaul,socket, name);
    		socket.session = session;
-   		callback({"gameMenu": session.buildGameMenu(), "status" : true});
+   		callback({"gameMenu": session.buildGameMenu(), "status" : true, "level": session.mapInfo.level});
 	});
 	socket.on('MenuLobbyChance', function(color) {
 		console.log(socket.session.lobby);
@@ -102,7 +102,7 @@ io.sockets.on('connection', function (socket) {
 });
 /* server loop */
 var delta = 0;
-var fps = 1000 / 1 ;
+var fps = 1000 / 1;
 setInterval(function() {
   SessionController.update(delta);
   ++delta;

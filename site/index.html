@@ -28,7 +28,8 @@
 			
 		</table>
 		<canvas id="gameMenuMap" width="192" height="192"></canvas>
-		<button id="GMStart">Start game</button>
+		<div id="GMStart"></div>
+		
 	</div>
 	<div id="chat">
 		<ul id="messages"></ul>
@@ -42,8 +43,13 @@
 	
 	<script src="site/jquery-2.1.4.min.js"></script>
 	<!-- the game engien -->
+	<!-- static obj -->
+	<script src="site/Model/Image.js"></script>
 	<script src="site/Model/Tile.js"></script>
 	<script src="site/Model/Window.js"></script>
+	<!-- for game the game -->
+	<script src="site/Model/Onmousemove.js"></script>
+	<script src="site/Model/interface.js"></script>
 	<script src="site/Model/World.js"></script>
 	<script src="site/Control/game.js"></script>
 	<script src="site/Control/socket.js"></script>

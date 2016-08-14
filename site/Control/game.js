@@ -11,12 +11,13 @@ var key = {
 var Game = function (NewGameData, start) {
     this.gameData = NewGameData
     this.map = NewGameData.map;
-    this.level = NewGameData.level;
-    this.buildings = NewGameData.buildings;
+    this.life = NewGameData.life;
+    this.gold = NewGameData.gold;
     this.ctx = ctx;
     this.world = new World(this.map, this.ctx, start);
     this.delta = 0;
-    
+    this.interface = new interface(this.ctx);
+    this.onmousemove = new Onmousemove(this.ctx, 0, 0, this);
     this.load = function () {
         this.ctx.mozImageSmoothingEnabled = false;
         this.ctx.webkitImageSmoothingEnabled = false;
@@ -50,12 +51,18 @@ var Game = function (NewGameData, start) {
         this.ctx.clearRect(0, 0, Window.x, Window.y);
 
             this.world.render();
+            this.onmousemove.render();
+            this.interface.render();
+            
         this.ctx.restore();
 
         var end = Date.now();
         this.ctx.font = '16px sans-serif'
         this.ctx.textAlign = 'center';
         this.ctx.fillText('Rendered in ' + (end - start) + ' ms', can.width / 2, can.height - 20);
+    }
+    this.click = function(x, y) {
+        // body...
     }
 }
 var GameLoopClass = function(game) {
@@ -114,3 +121,13 @@ window.addEventListener('keyup', function(e) {
           break;
     }
 }, false);
+can.onclick = function(e){
+    game.click(e.x, e.y);
+};
+can.onmousemove = function(e) {
+    var x = e.pageX - this.offsetLeft; 
+    var y = e.pageY - this.offsetTop;
+    //console.log("x: "+x +" y: "+y );
+    game.onmousemove.x = x;
+    game.onmousemove.y = y;
+}

@@ -5,7 +5,8 @@ var World = function (map, ctx, start) {
 		x:((start.x * Tile.SCALE_SIZE())-(Window.x/2)),
 		y:((start.y * Tile.SCALE_SIZE())-(Window.y/2))
 	}
-	this.image = document.getElementById("deadmaul_image");
+	//this.image = document.getElementById("deadmaul_image");
+	this.image = Images.get("deadmaul");
 	this.render = function (){ // x og y startpunkter
 			/*var offset = 0;
 			var xStart = (xRender - offset);

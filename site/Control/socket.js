@@ -51,6 +51,9 @@ $("#servers").on("click", "#sCreate", function () {
       $( "#GameMenu" ).show();
       $( "#chat" ).show();
       $( "#GMStart" ).show();
+      for (var i = 0; i < data.level.length; i++) {
+        $( "#GMStart" ).append("<button nr=\""+i+"\">"+data.level[i].name+"</button>");
+      }
       //console.log(data);
       updateGameMenu(data.gameMenu.lobby);
       buildMineMenuMap(data.gameMenu);
@@ -81,8 +84,9 @@ $("#GameMenu").on("click", "#GameMenuList button", function () {
     };
   });
 });
-$("#GameMenu").on("click", "#GMStart", function () {
-  socket.emit('startSession');
+$("#GameMenu").on("click", "#GMStart button", function () {
+  var nr = $(this).attr("nr");
+  socket.emit('startSession' , nr);
 });
 /**
  * fra server
@@ -105,14 +109,8 @@ socket.on('startGameData', function(data) {
   $( "#GameMenu" ).hide();
   $( "#GMStart" ).hide();
   $("#game").show();
-  console.info("startGameData");
-  console.log(data);
   game = new Game(data.map, data.start);
-  console.info("game");
-  console.log(game);
   gameLoopObj = new GameLoopClass(game);
-  console.info("gameLoopObj");
-  console.log(gameLoopObj);
   gameLoopObj.startGame();
   socket.emit('addAktivePlayer');
 });
