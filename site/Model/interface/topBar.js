@@ -1,23 +1,19 @@
-var topBar = function (ctx, data) {
+var topBar = function (ctx, game) {
 	this.game = game;
-	this.x = x;
-	this.y = x;
 	this.show = true;
+	this.testX = 200;
 	this.render = function (){
 		if (this.show) {
-			var poss = this.getBlock();
 			ctx.beginPath();
-			ctx.globalAlpha=0.2;
-	    	ctx.fillRect( (poss.x  * Tile.SCALE_SIZE()) - this.game.world.offset.x, (poss.y  * Tile.SCALE_SIZE()) - this.game.world.offset.y, Tile.SCALE_SIZE(), Tile.SCALE_SIZE());
-	    	ctx.fillStyle = "red";
+			ctx.globalAlpha=0.75;
+	    	ctx.fillStyle = "black";
+	    	ctx.fillRect( 0, 0, Window.x, 30);
 			ctx.fill();
+			ctx.fillStyle = "red";
+			ctx.font = "16px Arial";
+			ctx.fillText("gold: "+ this.game.gold , 50, 20);
+			ctx.fillText("Life back: "+ this.game.life , this.testX, 20);
 			ctx.globalAlpha=1;
 		}
-    }
-    this.getBlock = function () {
-
-		var realX = Math.floor((this.x + this.game.world.offset.x) / Tile.SCALE_SIZE());
- 		var realY = Math.floor((this.y + this.game.world.offset.y) / Tile.SCALE_SIZE());
-   		return {"x": realX, "y": realY};
     }
 }

@@ -19,7 +19,7 @@ module.exports = function (map, lobby, level) {
 				});
 		}
 	}
-	this.life = setting.life * map.level[level];
+	this.life = Math.round(map.setting.life * map.level[level].multiply.Life);
 	this.waves = [];
 	this.igangWave = null;
 	for (var i = 0; i < map.wave.length; i++) {
@@ -31,7 +31,7 @@ module.exports = function (map, lobby, level) {
 	};
 	this.level = map.level[level];
 	this.buildStartData = function () {
-		return {"map": this.mapData, "life" : this.life, "gold": map.setting.gold };
+		return {"map": this.mapData, "life" : this.life, "gold": map.setting.startGold };
 	}
 	this.update = function (delta) {
 		// body...

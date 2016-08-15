@@ -9,6 +9,7 @@ var key = {
   "x": false
 }
 var Game = function (NewGameData, start) {
+    console.log(NewGameData);
     this.gameData = NewGameData
     this.map = NewGameData.map;
     this.life = NewGameData.life;
@@ -16,8 +17,9 @@ var Game = function (NewGameData, start) {
     this.ctx = ctx;
     this.world = new World(this.map, this.ctx, start);
     this.delta = 0;
-    this.interface = new interface(this.ctx);
-    this.onmousemove = new Onmousemove(this.ctx, 0, 0, this);
+    this.mouse = new mouse(this.ctx, this);
+    this.interface = new interface(this.ctx, this);
+    
     this.load = function () {
         this.ctx.mozImageSmoothingEnabled = false;
         this.ctx.webkitImageSmoothingEnabled = false;
@@ -51,8 +53,8 @@ var Game = function (NewGameData, start) {
         this.ctx.clearRect(0, 0, Window.x, Window.y);
 
             this.world.render();
-            this.onmousemove.render();
             this.interface.render();
+            this.mouse.render();
             
         this.ctx.restore();
 
@@ -128,6 +130,7 @@ can.onmousemove = function(e) {
     var x = e.pageX - this.offsetLeft; 
     var y = e.pageY - this.offsetTop;
     //console.log("x: "+x +" y: "+y );
-    game.onmousemove.x = x;
-    game.onmousemove.y = y;
+    game.mouse.Onmousemove.x = x;
+    game.mouse.Onmousemove.y = y;
+    game.mouse.Onmousemove.show = true;
 }
