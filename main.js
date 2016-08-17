@@ -25,7 +25,12 @@ server.listen(port);
 io.sockets.on('connection', function (socket) {
 	console.log("New connection");
 	/* from active game*/
-
+	socket.on('NewBuilding', function (buildname, x, y) {
+		if (socket.session != null) {
+			console.log("NewBuilding start");
+			socket.session.addbuilding(buildname, x, y, socket);
+		}
+	});
 	/* Game menu */
 	socket.on('startSession', function(level) {
 		console.log("start session");
@@ -92,10 +97,14 @@ io.sockets.on('connection', function (socket) {
 			callback({"status":false,"text":"du er loget ind"});
 		}
 	});
+	socket.on('sessionList', function (callback) {
+		callback(SessionController.buildList());
+	})
 	socket.on('disconnect', function(){
     	if(!socket.name) return;
     	if (players[socket.name] != undefined) {
-    		players[socket.name] == null;
+    		//players[socket.name] == null;
+    		players.splice(socket.name, 1);
     	};
 		console.log("player dc");
 	});

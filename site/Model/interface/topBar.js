@@ -1,7 +1,6 @@
 var topBar = function (ctx, game) {
 	this.game = game;
 	this.show = true;
-	this.testX = 200;
 	this.render = function (){
 		if (this.show) {
 			ctx.beginPath();
@@ -12,7 +11,8 @@ var topBar = function (ctx, game) {
 			ctx.fillStyle = "red";
 			ctx.font = "16px Arial";
 			ctx.fillText("gold: "+ this.game.gold , 50, 20);
-			ctx.fillText("Life back: "+ this.game.life , this.testX, 20);
+			ctx.fillText("Life back: "+ this.game.life , 200, 20);
+			ctx.fillText("Wave: "+ this.game.wave , 350, 20);
 			ctx.globalAlpha=1;
 		}
     }

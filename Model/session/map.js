@@ -1,5 +1,6 @@
 var wave = require("./wave");
 var building = require("./building");
+var Clone = require('./fun');
 /*
  * map
  */
@@ -14,7 +15,8 @@ module.exports = function (map, lobby, level) {
 				{
 					"color": lobby[i].color,
 					"user": lobby[i].user,
-					"gold": map.setting.gold 
+					"gold": map.setting.startGold,
+					"buildings": []
 					
 				});
 		}
@@ -26,14 +28,73 @@ module.exports = function (map, lobby, level) {
 		this.waves.push(new wave(map.wave[i]));
 	};
 	this.availableBuilding = [];
-	for (var i = 0; i < map.wave.length; i++) {
+	for (var i = 0; i < map.buildings.length; i++) {
 		this.availableBuilding.push(new building(map.buildings[i]));
 	};
 	this.level = map.level[level];
 	this.buildStartData = function () {
-		return {"map": this.mapData, "life" : this.life, "gold": map.setting.startGold };
+		return {"map": this.mapData, "life" : this.life, "gold": map.setting.startGold,"wave": this.igangWave};
+	}
+	this.buildUpdate = function() {
+		var buildings = [];
+		for (var i = 0; i < this.playerData.length; i++) {
+			buildings = buildings.concat(this.playerData[i].buildings);
+		}
+		for (var i = 0; i < this.playerData.length; i++) {
+			console.log(this.playerData[i].user.name+" build");
+			this.emitSinkel(this.playerData[i].user, "LiveGameUpdate", {"buildings": buildings, "gold":this.playerData[i].gold, "life": this.life, "wave": this.igangWave})
+		}
 	}
 	this.update = function (delta) {
 		// body...
+	}
+	this.addbuilding = function(name, x, y, user) {
+		console.log("NewBuilding map start");
+		var building = null
+		for (var i = 0; i < this.availableBuilding.length; i++) {
+			if (this.availableBuilding[i].name == name) {
+				building = this.availableBuilding[i];
+				break;
+			}
+		};
+		if (building != null && !this.buildingExist(x, y)) {
+			console.log("NewBuilding found and not exist");
+			var foundUser = this.findUser(user);
+			if (foundUser != null && foundUser.gold >= building.cost) {
+				console.log("NewBuilding crafting!");
+				var cloneForNewBuilding = new Clone(building);
+				cloneForNewBuilding.x = x;
+				cloneForNewBuilding.y = y;
+				foundUser.gold -= building.cost;
+				foundUser.buildings.push(cloneForNewBuilding);
+				console.log("NewBuilding done!");
+				this.buildUpdate();
+				//return true;
+			}else{
+				console.log("NewBuilding error no user or gold!");
+			}
+		}
+		//return false;
+	}
+	this.findUser = function (user) {
+		for (var i = 0; i < this.playerData.length; i++) {
+			if (this.playerData[i].user.name == user.name) {
+				return this.playerData[i];
+			}
+		}
+		return null;
+	}
+	this.buildingExist = function(x, y) {
+		for (var i = 0; i < this.playerData.length; i++) {
+			for (var ii = 0; ii < this.playerData[i].buildings.length; ii++) {
+				if(this.playerData[i].buildings[ii].x == x && this.playerData[i].buildings[ii].y == y){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	this.emitSinkel = function (user, name, data) {
+		user.emit(name, data);	
 	}
 }

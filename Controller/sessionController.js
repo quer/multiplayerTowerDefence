@@ -5,7 +5,7 @@ var sessionObj = require("../Model/session/session");
 module.exports = new function () {
 	this.session = [];
 	this.newSession = function (map, user, name) {
-		var session = new sessionObj(map, user, name, ((this.session.length == 0)?0:++this.session[this.session.length-1].id));
+		var session = new sessionObj(map, user, name, ( 1 + this.session.length) );
 		this.addSession(session);
 		return session;
 	}
@@ -31,7 +31,9 @@ module.exports = new function () {
 	this.buildList = function () {
 		var endData = [];
 		for (var i = 0; i < this.session.length; i++) {
-			endData.push(this.session[i].buildOverview());
+			if (!this.session[i].igang) {
+				endData.push(this.session[i].buildOverview());
+			}
 		};
 		return endData;
 	}

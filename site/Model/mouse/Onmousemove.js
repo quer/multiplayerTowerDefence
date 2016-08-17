@@ -12,7 +12,7 @@ var Onmousemove = function (ctx, game) {
 			this.ctx.beginPath();
 			this.ctx.globalAlpha=0.2;
 	    	this.ctx.fillStyle = "red";
-	    	if (this.getCollision(poss.x, poss.y) == 2) {
+	    	if (this.game.world.getCollision(poss.x, poss.y) == 2) {
 	    		ctx.fillStyle = "green";
 	    	}
 	    	this.ctx.fillRect( (poss.x  * Tile.SCALE_SIZE()) - this.game.world.offset.x, (poss.y  * Tile.SCALE_SIZE()) - this.game.world.offset.y, Tile.SCALE_SIZE(), Tile.SCALE_SIZE());
@@ -57,9 +57,7 @@ var Onmousemove = function (ctx, game) {
  		var realY = Math.floor((this.y + this.game.world.offset.y) / Tile.SCALE_SIZE());
    		return {"x": realX, "y": realY};
     }
-    this.getCollision = function (x, y) {
-    	return this.game.map.collission.data[((y * this.game.map.width) + x)] - this.game.map.collission.firstgid;
-    }
+    
      /**
 	 * text can be a array, if more lines
 	 * folowMap is like, is it static or dynamick link the game screen

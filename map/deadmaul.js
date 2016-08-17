@@ -198,6 +198,7 @@
     "wave":[
     	{
     		"reward": 1000,
+    		"waveSpendTime": 180000, //milisec (1000 = 1sec)
     		"mobsSpawn":
     		[
     			{
@@ -306,6 +307,7 @@
     	},
     	{
     		"reward": 2000,
+    		"waveSpendTime": 180000, //milisec (1000 = 1sec)
     		"mobsSpawn":
     		[
     			{

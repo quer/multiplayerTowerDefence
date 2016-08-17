@@ -14,11 +14,14 @@ var Game = function (NewGameData, start) {
     this.map = NewGameData.map;
     this.life = NewGameData.life;
     this.gold = NewGameData.gold;
+    this.wave = NewGameData.wave;
     this.ctx = ctx;
     this.world = new World(this.map, this.ctx, start);
+    this.gameBuilding = new gameBuilding(this.ctx, this);
     this.delta = 0;
     this.mouse = new mouse(this.ctx, this);
     this.interface = new interface(this.ctx, this);
+    this.buildings = [];
     
     this.load = function () {
         this.ctx.mozImageSmoothingEnabled = false;
@@ -53,6 +56,7 @@ var Game = function (NewGameData, start) {
         this.ctx.clearRect(0, 0, Window.x, Window.y);
 
             this.world.render();
+            this.gameBuilding.render();
             this.interface.render();
             this.mouse.render();
             
@@ -61,10 +65,17 @@ var Game = function (NewGameData, start) {
         var end = Date.now();
         this.ctx.font = '16px sans-serif'
         this.ctx.textAlign = 'center';
-        this.ctx.fillText('Rendered in ' + (end - start) + ' ms', can.width / 2, can.height - 20);
+        this.ctx.fillText('Rendered in ' + (end - start) + ' ms', can.width / 2, can.height - 35);
+        this.ctx.fillText('Ping ' + latency + ' ms', can.width / 2, can.height - 20);
     }
-    this.click = function(x, y) {
-        // body...
+    this.LiveGameUpdate = function (data) {
+        //{"buildings": "", "gold":"", "life": "", "wave": ""}
+        console.log(data);
+        this.wave = data.wave;
+        this.gold = data.gold;
+        this.life = data.life;
+        this.buildings = data.buildings;
+        this.mouse.click.addBuilding(data.buildings);
     }
 }
 var GameLoopClass = function(game) {
@@ -124,7 +135,10 @@ window.addEventListener('keyup', function(e) {
     }
 }, false);
 can.onclick = function(e){
-    game.click(e.x, e.y);
+    var x = e.pageX - this.offsetLeft; 
+    var y = e.pageY - this.offsetTop;
+    game.mouse.click.click(x, y);
+    //console.log("x: "+ x + " y: " + y);
 };
 can.onmousemove = function(e) {
     var x = e.pageX - this.offsetLeft; 
@@ -133,4 +147,10 @@ can.onmousemove = function(e) {
     game.mouse.Onmousemove.x = x;
     game.mouse.Onmousemove.y = y;
     game.mouse.Onmousemove.show = true;
+}
+can.oncontextmenu = function() {
+   if (game != null) {
+        game.mouse.click.clicked = null;
+    } 
+   return false; 
 }

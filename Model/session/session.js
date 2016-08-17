@@ -152,10 +152,10 @@ module.exports = function (map, user, name, id) {
 	this.update = function(delta) {
 		if (this.map != null) {
 			if (this.igang) {
-				console.log("update akriv game");
+				//console.log("update akriv game");
 				this.map.update(delta);
 			}else{
-				console.log("update. checker game");
+				console.log("checker game");
 				this.checkReady();
 			}
 		}
@@ -170,6 +170,12 @@ module.exports = function (map, user, name, id) {
 		}
 		if (!allreadyAktive) {
 			this.Ready.push(user);
+		}
+	}
+	this.addbuilding = function(name, x, y, user) {
+		if (this.igang) {
+			console.log("NewBuilding session start");
+			this.map.addbuilding(name, x, y, user);
 		}
 	}
 }

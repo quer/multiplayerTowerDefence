@@ -2,6 +2,7 @@
  * building
  */
 module.exports = function (building) {
+	console.log(building);
 	this.building = building;
 	this.name = building.name;
 	this.range = building.range;
@@ -9,7 +10,8 @@ module.exports = function (building) {
 	this.speed = building.speed;
 	this.damageRadis = building.damageRadis;
 	this.cost = building.cost;
-	this.upgrade = building.upgrade == undefined? new this(building.upgrade) : null; 
+	this.color = building.color;
+	//this.upgrade = building.upgrade != undefined? new module.exports(building.upgrade) : null; 
 
 	this.update = function (delta) {
 		// body...

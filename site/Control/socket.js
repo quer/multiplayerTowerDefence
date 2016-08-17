@@ -1,4 +1,5 @@
 var socket = io.connect();
+var latency = 0;
 var game = null;
 var gameLoopObj = null;
 /**
@@ -11,17 +12,7 @@ $("#bLogin").click(function() {
         console.log(data.text);
         $( "#login" ).hide();
         $( "#servers" ).show();
-        //console.log(data.sessionList);
-        var tableData = $("#serverList");
-        for (var i = 0; i < data.sessionList.length; i++) {
-          tableData.append("<tr>"
-            +"<td>"+data.sessionList[i].name+"</td>"
-            +"<td>"+data.sessionList[i].host+"</td>"
-            +"<td>"+data.sessionList[i].map+"</td>"
-            +"<td>"+data.sessionList[i].usedSlots+" / "+data.sessionList[i].slot+"</td>"
-            +"<td><button serverId=\""+data.sessionList[i].id+"\">Join</button></td>"
-            +"</tr>"); 
-        };
+        buildSessionList(data.sessionList)
     }else{
         console.log(data.text);
     }
@@ -62,8 +53,11 @@ $("#servers").on("click", "#sCreate", function () {
     }
   });
 });
-  
-
+$("#servers").on("click", "#sRefresh", function (data) {
+  socket.emit('sessionList', function (data) {
+    buildSessionList(data);
+  });
+});
 /**
  * chat
  */
@@ -97,12 +91,7 @@ socket.on('GameMenuUpdate', function(data) {
 });
 
 socket.on('chat', function(data) {
-  $('#messages').append($('<li>').text(data.from+": "+data.text));
-  console.log(data);
-});
-socket.on('chat', function(data) {
-  $('#messages').append($('<li>').text(data.from+": "+data.text));
-  console.log(data);
+  addTextChat(data.from, data.text);
 });
 socket.on('startGameData', function(data) {
   $( "#servers" ).hide();
@@ -114,6 +103,10 @@ socket.on('startGameData', function(data) {
   gameLoopObj.startGame();
   socket.emit('addAktivePlayer');
 });
+socket.on('LiveGameUpdate', function(data) {
+  console.log(data);
+  game.LiveGameUpdate(data);
+});
 /**
 * Ping test 
 */
@@ -124,7 +117,6 @@ setInterval(function() {
 }, 2000);
 socket.on('pong', function() {
   latency = Date.now() - startTime;
-  console.log(latency);
 });
 function updateGameMenu (lobbyData) {
   var GameMenuList = $("#GameMenuList");
@@ -178,4 +170,20 @@ function getTileplace (tileNr, tilesets) {
   var returnX =  tileNr - (returnY * 6);
   return {x: returnX, y: returnY};
 
+}
+function addTextChat(from, text) {
+  $('#messages').append($('<li>').text(from+": "+text));
+  //console.log(data);
+}
+function buildSessionList(data) {
+  var tableData = $("#serverList");
+  for (var i = 0; i < data.length; i++) {
+    tableData.append("<tr>"
+      +"<td>"+data[i].name+"</td>"
+      +"<td>"+data[i].host+"</td>"
+      +"<td>"+data[i].map+"</td>"
+      +"<td>"+data[i].usedSlots+" / "+data[i].slot+"</td>"
+      +"<td><button serverId=\""+data[i].id+"\">Join</button></td>"
+      +"</tr>"); 
+  };
 }
