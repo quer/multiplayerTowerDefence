@@ -155,7 +155,7 @@ module.exports = function (map, user, name, id) {
 				//console.log("update akriv game");
 				this.map.update(delta);
 			}else{
-				console.log("checker game");
+				console.log("checker game: " + this.usedSlots() + "-" +this.Ready.length);
 				this.checkReady();
 			}
 		}

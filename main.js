@@ -1,3 +1,4 @@
+var Clone = require('./Model/session/fun');
 var playerObj = require("./Model/player");
 var SessionController = require("./Controller/sessionController");
 var express = require('express');
@@ -24,6 +25,17 @@ console.log("starter server on port "+port);
 server.listen(port);
 io.sockets.on('connection', function (socket) {
 	console.log("New connection");
+	/* debug */
+	socket.on('debugSession', function(callback) {
+		if(socket.session != null){
+			callback(socket.session.map.waves);
+		}else
+		{
+			callback("error");
+		}
+
+
+	});
 	/* from active game*/
 	socket.on('NewBuilding', function (buildname, x, y) {
 		if (socket.session != null) {
@@ -52,14 +64,14 @@ io.sockets.on('connection', function (socket) {
 	    }
 	});
 	socket.on('creatSession', function(name, callback) {
-		var session = SessionController.newSession(TileMaps.deadmaul,socket, name);
+		var session = SessionController.newSession(new Clone(TileMaps.deadmaul),socket, name);
    		socket.session = session;
    		callback({"gameMenu": session.buildGameMenu(), "status" : true, "level": session.mapInfo.level});
 	});
 	socket.on('MenuLobbyChance', function(color) {
-		console.log(socket.session.lobby);
+		//console.log(socket.session.lobby);
 		socket.session.joinColorAndRemoveFromOld(socket, color);
-		console.log(socket.session.lobby);
+		//console.log(socket.session.lobby);
 		socket.session.emitGameMenuToAll();
 	  	console.log("menu updateGameMenu");
 	});
@@ -116,3 +128,4 @@ setInterval(function() {
   SessionController.update(delta);
   ++delta;
 }, fps);
+

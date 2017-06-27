@@ -25,7 +25,7 @@ module.exports = function (map, lobby, level) {
 	this.waves = [];
 	this.igangWave = null;
 	for (var i = 0; i < map.wave.length; i++) {
-		this.waves.push(new wave(map.wave[i]));
+		this.waves.push(new wave(map.wave[i], map.mobSpawn, i));
 	};
 	this.availableBuilding = [];
 	for (var i = 0; i < map.buildings.length; i++) {
@@ -33,7 +33,7 @@ module.exports = function (map, lobby, level) {
 	};
 	this.level = map.level[level];
 	this.buildStartData = function () {
-		return {"map": this.mapData, "life" : this.life, "gold": map.setting.startGold,"wave": this.igangWave};
+		return {"map": this.mapData, "life" : this.life, "gold": this.mapData.setting.startGold,"wave": this.igangWave};
 	}
 	this.buildUpdate = function() {
 		var buildings = [];
@@ -42,11 +42,16 @@ module.exports = function (map, lobby, level) {
 		}
 		for (var i = 0; i < this.playerData.length; i++) {
 			console.log(this.playerData[i].user.name+" build");
-			this.emitSinkel(this.playerData[i].user, "LiveGameUpdate", {"buildings": buildings, "gold":this.playerData[i].gold, "life": this.life, "wave": this.igangWave})
+			this.emitSinkel(this.playerData[i].user, "LiveGameUpdate", {"buildings": buildings, "gold":this.playerData[i].gold, "life": this.life, "wave": this.igangWave.GetMobs()})
 		}
 	}
 	this.update = function (delta) {
-		// body...
+		if (this.igangWave != null) {
+
+		}else{
+			console.log("start wave!");
+			this.startNextWave(delta);
+		}
 	}
 	this.addbuilding = function(name, x, y, user) {
 		console.log("NewBuilding map start");
@@ -96,5 +101,26 @@ module.exports = function (map, lobby, level) {
 	}
 	this.emitSinkel = function (user, name, data) {
 		user.emit(name, data);	
+	}
+
+	this.startNextWave = function(delta) {
+		var nextwaveid = 0;
+		if (this.igangWave != null) {
+			nextwaveid = ++this.igangWave.id;
+		}
+		
+		if (nextwaveid + 1 > this.waves.length) {
+			this.igangWave = null;
+			this.Afslut();
+			return;
+		}
+		var wave = this.waves[nextwaveid];
+		this.igangWave = wave;
+		wave.build();
+		wave.start(delta);
+	}
+	this.Afslut = function () {
+		// TODO: end game
+		console.log("game end!");
 	}
 }

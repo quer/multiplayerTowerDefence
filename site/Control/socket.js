@@ -187,3 +187,8 @@ function buildSessionList(data) {
       +"</tr>"); 
   };
 }
+function debug() {
+  socket.emit('debugSession', function(data) {
+    console.log(data);
+  });
+}

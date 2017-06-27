@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="13.1">
+<diagram program="umlet" version="14.2">
   <zoom_level>10</zoom_level>
   <element>
     <type>com.baselet.element.old.element.Class</type>
     <coordinates>
       <x>0</x>
-      <y>440</y>
+      <y>250</y>
       <w>100</w>
       <h>80</h>
     </coordinates>
@@ -16,7 +16,7 @@
     <type>com.baselet.element.old.element.Class</type>
     <coordinates>
       <x>0</x>
-      <y>590</y>
+      <y>400</y>
       <w>100</w>
       <h>110</h>
     </coordinates>
@@ -27,7 +27,7 @@
     <type>com.baselet.element.old.element.Class</type>
     <coordinates>
       <x>210</x>
-      <y>480</y>
+      <y>290</y>
       <w>100</w>
       <h>110</h>
     </coordinates>
@@ -38,7 +38,7 @@
     <type>com.baselet.element.old.element.Class</type>
     <coordinates>
       <x>400</x>
-      <y>440</y>
+      <y>250</y>
       <w>100</w>
       <h>110</h>
     </coordinates>
@@ -54,8 +54,8 @@ igangWave
   <element>
     <type>com.baselet.element.old.element.Class</type>
     <coordinates>
-      <x>700</x>
-      <y>480</y>
+      <x>860</x>
+      <y>290</y>
       <w>100</w>
       <h>30</h>
     </coordinates>
@@ -65,8 +65,8 @@ igangWave
   <element>
     <type>com.baselet.element.old.element.Class</type>
     <coordinates>
-      <x>850</x>
-      <y>470</y>
+      <x>1010</x>
+      <y>280</y>
       <w>100</w>
       <h>30</h>
     </coordinates>
@@ -78,7 +78,7 @@ igangWave
     <type>com.baselet.element.old.element.Class</type>
     <coordinates>
       <x>550</x>
-      <y>440</y>
+      <y>250</y>
       <w>100</w>
       <h>110</h>
     </coordinates>
@@ -91,7 +91,7 @@ beløning</panel_attributes>
     <type>com.baselet.element.old.element.Class</type>
     <coordinates>
       <x>410</x>
-      <y>630</y>
+      <y>440</y>
       <w>100</w>
       <h>110</h>
     </coordinates>
@@ -107,7 +107,7 @@ Y</panel_attributes>
     <type>com.baselet.element.old.element.Class</type>
     <coordinates>
       <x>560</x>
-      <y>630</y>
+      <y>440</y>
       <w>100</w>
       <h>110</h>
     </coordinates>
@@ -119,7 +119,7 @@ Y</panel_attributes>
     <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>440</x>
-      <y>520</y>
+      <y>330</y>
       <w>50</w>
       <h>130</h>
     </coordinates>
@@ -130,7 +130,7 @@ Y</panel_attributes>
     <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>480</x>
-      <y>670</y>
+      <y>480</y>
       <w>100</w>
       <h>50</h>
     </coordinates>
@@ -141,7 +141,7 @@ Y</panel_attributes>
     <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>470</x>
-      <y>460</y>
+      <y>270</y>
       <w>100</w>
       <h>50</h>
     </coordinates>
@@ -152,18 +152,18 @@ Y</panel_attributes>
     <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>620</x>
-      <y>470</y>
-      <w>100</w>
+      <y>280</y>
+      <w>110</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>80;30;30;30</additional_attributes>
+    <additional_attributes>90;30;30;30</additional_attributes>
   </element>
   <element>
     <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
-      <x>770</x>
-      <y>460</y>
+      <x>930</x>
+      <y>270</y>
       <w>100</w>
       <h>50</h>
     </coordinates>
@@ -174,7 +174,7 @@ Y</panel_attributes>
     <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>280</x>
-      <y>480</y>
+      <y>290</y>
       <w>140</w>
       <h>50</h>
     </coordinates>
@@ -185,7 +185,7 @@ Y</panel_attributes>
     <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>70</x>
-      <y>460</y>
+      <y>270</y>
       <w>160</w>
       <h>70</h>
     </coordinates>
@@ -196,7 +196,7 @@ Y</panel_attributes>
     <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>70</x>
-      <y>540</y>
+      <y>350</y>
       <w>160</w>
       <h>110</h>
     </coordinates>
@@ -207,7 +207,7 @@ Y</panel_attributes>
     <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>30</x>
-      <y>490</y>
+      <y>300</y>
       <w>50</w>
       <h>120</h>
     </coordinates>
@@ -218,7 +218,7 @@ Y</panel_attributes>
     <type>com.baselet.element.old.element.Class</type>
     <coordinates>
       <x>400</x>
-      <y>280</y>
+      <y>90</y>
       <w>100</w>
       <h>110</h>
     </coordinates>
@@ -235,11 +235,33 @@ navn
     <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
       <x>420</x>
-      <y>360</y>
+      <y>170</y>
       <w>50</w>
       <h>100</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>30;30;30;80</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>710</x>
+      <y>290</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>mobSpawn</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>780</x>
+      <y>280</y>
+      <w>100</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>80;30;30;30</additional_attributes>
   </element>
 </diagram>

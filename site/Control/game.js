@@ -149,8 +149,8 @@ can.onmousemove = function(e) {
     game.mouse.Onmousemove.show = true;
 }
 can.oncontextmenu = function() {
-   if (game != null) {
+    if (game != null) {
         game.mouse.click.clicked = null;
     } 
-   return false; 
+    return false; 
 }
