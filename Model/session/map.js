@@ -4,7 +4,7 @@ var Clone = require('./fun');
 /*
  * map
  */
-module.exports = function (map, lobby, level) {
+module.exports = function (map, lobby, difficulty) {
 	this.collission = map.collission;
 	this.map = map.map;
 	this.mapData = map;
@@ -21,20 +21,21 @@ module.exports = function (map, lobby, level) {
 				});
 		}
 	}
-	this.life = Math.round(map.setting.life * map.level[level].multiply.Life);
+	this.life = Math.round(map.setting.life * map.difficulty[difficulty].multiply.Life);
 	this.waves = [];
 	this.igangWave = null;
+	var currentCollissionForPathFinder = GenerateCollissionMapFor(this.collission, this.map.width, this.playerData); //have to be extern, doent have it methode yet
 	for (var i = 0; i < map.wave.length; i++) {
-		this.waves.push(new wave(map.wave[i], map.mobSpawn, i));
-	};
+		this.waves.push(new wave(map.wave[i], map.mobSpawn, i, map.end, currentCollissionForPathFinder));
+	}
 	this.availableBuilding = [];
 	for (var i = 0; i < map.buildings.length; i++) {
 		this.availableBuilding.push(new building(map.buildings[i]));
-	};
-	this.level = map.level[level];
+	}
+	this.difficulty = map.difficulty[difficulty];
 	this.buildStartData = function () {
 		return {"map": this.mapData, "life" : this.life, "gold": this.mapData.setting.startGold,"wave": this.igangWave};
-	}
+	};
 	this.buildUpdate = function() {
 		var buildings = [];
 		for (var i = 0; i < this.playerData.length; i++) {
@@ -44,10 +45,10 @@ module.exports = function (map, lobby, level) {
 			console.log(this.playerData[i].user.name+" build");
 			this.emitSinkel(this.playerData[i].user, "LiveGameUpdate", {"buildings": buildings, "gold":this.playerData[i].gold, "life": this.life, "wave": this.igangWave.GetMobs()})
 		}
-	}
+	};
 	this.update = function (delta) {
 		if (this.igangWave != null) {
-
+			this.igangWave.update(delta);
 		}else{
 			console.log("start wave!");
 			this.startNextWave(delta);
@@ -61,7 +62,7 @@ module.exports = function (map, lobby, level) {
 				building = this.availableBuilding[i];
 				break;
 			}
-		};
+		}
 		if (building != null && !this.buildingExist(x, y)) {
 			console.log("NewBuilding found and not exist");
 			var foundUser = this.findUser(user);
@@ -123,4 +124,30 @@ module.exports = function (map, lobby, level) {
 		// TODO: end game
 		console.log("game end!");
 	}
+	this.GenerateCollissionMapFor = function () {
+		 return GenerateCollissionMapFor(this.collission, this.map.width, this.playerData);
+	}
+}
+function GenerateCollissionMapFor(collission, mapWidth, playerData) {
+	var grid = [];
+	var rowMatrix  = [];
+	for (var i = 0; i < collission.data.length; i++) {
+		var rowNumber = collission.data[i];
+		if(rowNumber == 2){
+			rowMatrix.push(0);
+		}else{
+			rowMatrix.push(1);
+		}
+		if(i % mapWidth == 0){
+			grid.push(rowMatrix);
+			rowMatrix = [];
+		}
+	}
+	for (var i = 0; i < playerData.length; i++) {
+		for (var ii = 0; ii < playerData[i].buildings.length; ii++) {
+			var building = playerData[i].buildings[ii];
+			grid[building.x][building.y] = 1;
+		}
+	}
+	return rowMatrix;
 }

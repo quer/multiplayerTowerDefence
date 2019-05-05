@@ -79,8 +79,8 @@ $("#GameMenu").on("click", "#GameMenuList button", function () {
   });
 });
 $("#GameMenu").on("click", "#GMStart button", function () {
-  var nr = $(this).attr("nr");
-  socket.emit('startSession' , nr);
+  var difficulty = $(this).attr("nr");
+  socket.emit('startSession', difficulty);
 });
 /**
  * fra server

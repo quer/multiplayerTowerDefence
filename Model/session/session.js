@@ -18,8 +18,8 @@ module.exports = function (map, user, name, id) {
 		});
 	};
 	this.map = null;
-	this.buildMap = function (level) {
-		this.map = new mapObj(this.mapInfo, this.lobby, level);
+	this.buildMap = function (difficulty) {
+		this.map = new mapObj(this.mapInfo, this.lobby, difficulty);
 	}
 	this.igang = false;
 	this.Ready = [];
@@ -115,10 +115,10 @@ module.exports = function (map, user, name, id) {
 	this.emitSessionSinkel = function (user, name, data) {
 		user.emit(name, data);	
 	}
-	this.startCountdown = function(level) {
+	this.startCountdown = function(difficulty) {
 		console.log("game will Start");
 		this.chat("Game will start", "Server");
-		this.start(level);
+		this.start(difficulty);
 		/* for count down */
 		/*var i = 10;
 		var that = this;
@@ -132,8 +132,8 @@ module.exports = function (map, user, name, id) {
     		}
   		},1000);*/
 	}
-	this.start = function(level) {
-		this.buildMap(level);
+	this.start = function(difficulty) {
+		this.buildMap(difficulty);
 		//this.emitSession('startGame', {"start":true});
 		for (var i = 0; i < this.lobby.length; i++) {
 			if (this.lobby[i].user != null) {

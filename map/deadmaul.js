@@ -85,7 +85,7 @@
     },
     "mobSpawn":[
     	{
-    		"refName":"topLeft",
+    		"wave.mobsSpawn":"topLeft",
     		"start":{
     			"x":13,
     			"y":0
@@ -93,7 +93,13 @@
     		"end":{
     			"x":22,
     			"y":9
-    		}
+    		},
+    		"wayPoint":[
+				{
+					"x": 18,
+					"y": 73
+				}
+			],
     	},
     	{
     		"refName":"topMid",
@@ -104,7 +110,8 @@
     		"end":{
     			"x":50,
     			"y":9
-    		}
+    		},
+    		"wayPoint":[]
     	},
     	{
     		"refName":"topRight",
@@ -115,7 +122,13 @@
     		"end":{
     			"x":82,
     			"y":9
-    		}
+    		},
+    		"wayPoint":[
+				{
+					"x": 77,
+					"y": 73
+				}
+			]
     	},
     	{
     		"refName":"midRight",
@@ -126,7 +139,8 @@
     		"end":{
     			"x":9,
     			"y":56
-    		}
+    		},
+    		"wayPoint":[]
     	},
     	{
     		"refName":"midLeft",
@@ -137,7 +151,8 @@
     		"end":{
     			"x":89,
     			"y":56
-    		}
+    		},
+    		"wayPoint":[]
     	},
     	{
     		"refName":"bottomRight",
@@ -148,7 +163,8 @@
     		"end":{
     			"x":52,
     			"y":60
-    		}
+    		},
+    		"wayPoint":[]
     	},
     	{
     		"refName":"bottomLeft",
@@ -159,7 +175,8 @@
     		"end":{
     			"x":44,
     			"y":60
-    		}
+    		},
+    		"wayPoint":[]
     	}
     ],
     "end":{
@@ -172,7 +189,7 @@
 			"y":91
 		}
     },
-    "level":[
+    "difficulty":[
     	{
     		"name": "easy",
     		"multiply": {
@@ -206,50 +223,18 @@
     				"delay": 10000, //milisec (1000 = 1sec)
     				"mobsGroup":
     				[
-    					{
-    						"wayPoint":[
-    							{
-    								"x": 18,
-    								"y": 73
-    							}
-    						],
-    						"mob":[
-	    						{
-	    							"name":"test1",//måske ikke noget navn
-	    							"amount":5,
-	    							"life": 10,
-	    							"design": "1"
-	    						},
-	    						{
-	    							"name":"test2",//måske ikke noget navn
-	    							"amount":5,
-	    							"life": 10,
-	    							"design": "2"
-	    						}
-    						]
-    					},
-    					{
-    						"wayPoint":[
-    							{
-    								"x": 18,
-    								"y": 73
-    							}
-    						],
-    						"mob":[
-	    						{
-	    							"name":"test1",//måske ikke noget navn
-	    							"amount":5,
-	    							"life": 10,
-	    							"design": "1"
-	    						},
-	    						{
-	    							"name":"test2",//måske ikke noget navn
-	    							"amount":5,
-	    							"life": 10,
-	    							"design": "2"
-	    						}
-    						]
-    					}
+						{
+							"name":"test1",//måske ikke noget navn
+							"amount":5,
+							"life": 10,
+							"design": "1"
+						},
+						{
+							"name":"test2",//måske ikke noget navn
+							"amount":5,
+							"life": 10,
+							"design": "2"
+						}
     				]
     			},
     			{
@@ -258,49 +243,18 @@
     				"mobsGroup":
     				[
     					{
-    						"wayPoint":[
-    							{
-	    							"x": 77,
-	    							"y": 73
-	    						}
-    						],
-    						"mob":[
-	    						{
-	    							"name":"test1",//måske ikke noget navn
-	    							"amount":5,
-	    							"life": 10,
-	    							"design": "1"
-	    						},
-	    						{
-	    							"name":"test2",//måske ikke noget navn
-	    							"amount":5,
-	    							"life": 10,
-	    							"design": "2"
-	    						}
-    						]
-    					},
-    					{
-    						"wayPoint":[
-    							{
-	    							"x": 77,
-	    							"y": 73
-	    						}
-    						],
-    						"mob":[
-	    						{
-	    							"name":"test1",//måske ikke noget navn
-	    							"amount":5,
-	    							"life": 10,
-	    							"design": "1"
-	    						},
-	    						{
-	    							"name":"test2",//måske ikke noget navn
-	    							"amount":5,
-	    							"life": 10,
-	    							"design": "2"
-	    						}
-    						]
-    					}
+							"name":"test1",//måske ikke noget navn
+							"amount":5,
+							"life": 10,
+							"design": "1"
+						},
+						{
+							"name":"test2",//måske ikke noget navn
+							"amount":5,
+							"life": 10,
+							"design": "2"
+						}
+    					
     				]
     			}
     		]
@@ -315,48 +269,18 @@
     				"delay": 10000, //milisec (1000 = 1sec)
     				"mobsGroup":
     				[
-    					{
-    						"wayPoint":[
-    							{
-    								"x": 18,
-    								"y": 73
-    							}
-    						],
-    						"mob":[
-	    						{
-	    							"name":"test1",//måske ikke noget navn
-	    							"amount":5,
-	    							"life": 20,
-	    							"design": "1"
-	    						},
-	    						{
-	    							"name":"test2",//måske ikke noget navn
-	    							"amount":5,
-	    							"life": 20,
-	    							"design": "2"
-	    						}
-    						]
-    					},
-    					{
-    						"wayPoint":{
-    							"x": 18,
-    							"y": 73
-    						},
-    						"mob":[
-	    						{
-	    							"name":"test1",//måske ikke noget navn
-	    							"amount":5,
-	    							"life": 20,
-	    							"design": "1"
-	    						},
-	    						{
-	    							"name":"test2",//måske ikke noget navn
-	    							"amount":5,
-	    							"life": 20,
-	    							"design": "2"
-	    						}
-    						]
-    					}
+						{
+							"name":"test1",//måske ikke noget navn
+							"amount":5,
+							"life": 10,
+							"design": "1"
+						},
+						{
+							"name":"test2",//måske ikke noget navn
+							"amount":5,
+							"life": 10,
+							"design": "2"
+						}
     				]
     			},
     			{
@@ -365,49 +289,18 @@
     				"mobsGroup":
     				[
     					{
-    						"wayPoint":[
-    							{
-	    							"x": 77,
-	    							"y": 73
-	    						}
-    						],
-    						"mob":[
-	    						{
-	    							"name":"test1",//måske ikke noget navn
-	    							"amount":5,
-	    							"life": 20,
-	    							"design": "1"
-	    						},
-	    						{
-	    							"name":"test2",//måske ikke noget navn
-	    							"amount":5,
-	    							"life": 20,
-	    							"design": "2"
-	    						}
-    						]
-    					},
-    					{
-    						"wayPoint":[
-    							{
-	    							"x": 77,
-	    							"y": 73
-	    						}
-    						],
-    						"mob":[
-	    						{
-	    							"name":"test1",//måske ikke noget navn
-	    							"amount":5,
-	    							"life": 20,
-	    							"design": "1"
-	    						},
-	    						{
-	    							"name":"test2",//måske ikke noget navn
-	    							"amount":5,
-	    							"life": 20,
-	    							"design": "2"
-	    						}
-    						]
-    					}
+							"name":"test1",//måske ikke noget navn
+							"amount":5,
+							"life": 10,
+							"design": "1"
+						},
+						{
+							"name":"test2",//måske ikke noget navn
+							"amount":5,
+							"life": 10,
+							"design": "2"
+						}
+    					
     				]
     			}
     		]
